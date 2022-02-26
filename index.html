@@ -15,6 +15,37 @@
     background: rosybrown;
 
   }
+  .keyboard { 
+        display: flex;
+        justify-content:center;
+        
+    }
+    button{
+        height: 4rem;
+        width: 2.6em;
+        margin: .2em;
+        text-transform: uppercase;
+        padding: .5em 1em;
+        border-radius: .4em;
+        border: none;
+        font-size: 1em;
+    }
+    * {
+  box-sizing: border-box;
+}
+    .keyboardw {
+        padding: .5em;
+
+    }
+    #enter{
+        width: 4.1em;
+        padding: 0;
+    }
+    #back{
+        width: 4.1em;
+        padding: 0;
+
+    }
   *{
       margin: 0;
       padding: 0;
@@ -28,5 +59,48 @@
 <title>Wordle</title>
 <div>A</div>
 <div>B</div>
-<div>C</div>
+<div>
+
+
+
+    <section class="keyboardw">
+        <section class="keyboard">
+        <button>q</button>
+        <button>w</button>
+        <button>e</button>
+        <button>r</button>
+        <button>t</button>
+        <button>y</button>
+        <button>u</button>
+        <button>i</button>
+        <button>o</button>
+        <button>p</button>
+        </section>
+        
+        <section class="keyboard">
+        <button>a</button>
+        <button>s</button>
+        <button>d</button>
+        <button>f</button>
+        <button>g</button>
+        <button>h</button>
+        <button>j</button>
+        <button>k</button>
+        <button>l</button>
+        </section>
+        
+        
+        <section class="keyboard"> 
+            <button id="enter">Enter</button>
+            <button>z</button>
+            <button>x</button>
+            <button>c</button>
+            <button>v</button>
+            <button>b</button>
+            <button>n</button>
+            <button>m</button>
+            <button id="back">⌫</button>
+        </section>
+        </section>
+</div>
 </main>
