@@ -1,130 +1,79 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<style>
-    main {
-        display: grid;
-        grid-template-rows: 1fr 12fr 3fr;
-        grid-template-columns:1fr;
-        height: 100vh;
-        width: 100vw;
-    }
-    div {
-    list-style: none;
-    border: black thin dashed;
+<link rel="stylesheet" href="style.css">
 
-  }
-  .keyboard { 
-        display: flex;
-        justify-content:center;
-        width: device-width;
-        
-    }
-    button{
-        height: 3.8em;
-        width: 2.85em;
+<body>
+    <main>
+        <title>Wordle</title>
+        <h1>Wordle</h1>
 
-        /* width:10%; */
-        margin: .2em;
-        text-transform: uppercase;
-        padding: .5em 0.2%;
-        border-radius: .4em;
-        border: none;
-        font-size: 1em;
-    }
-    .large{
-        width: 4.275em;
-    }
-    h1{
-        text-align: center;
-        font-size: 3rem;
-    }
-
-    @media screen and (max-width: 600px) {
-    button{
-            width: 10%;
-          }
-    .large{
-        width:20%;
-        padding: 0;
-    }
-    .keyboardw{
-    padding-bottom: 0.5em;
-    padding-left: 0.2em;
-    padding-right: 0.2em;
-
-}
-
-
-}
-
-  *{
-      margin: 0;
-      padding: 0;
-  }
-
-
-</style>
-
-
-<main>
-    <body></body>
-<title>Wordle</title>
-<h1>Wordle</h1>
-<div>Squares</div>
-<div>
+        <div id="squares"></div>
+        <div>
 
 
 
-    <section class="keyboardw">
-        <section class="keyboard">
-        <button>q</button>
-        <button>w</button>
-        <button>e</button>
-        <button>r</button>
-        <button>t</button>
-        <button>y</button>
-        <button>u</button>
-        <button>i</button>
-        <button>o</button>
-        <button>p</button>
-        </section>
-        
-        <section class="keyboard">
-        <button>a</button>
-        <button>s</button>
-        <button>d</button>
-        <button>f</button>
-        <button>g</button>
-        <button>h</button>
-        <button>j</button>
-        <button>k</button>
-        <button>l</button>
-        </section>
-        
-        
-        <section class="keyboard"> 
-            <button class="large">Enter</button>
-            <button>z</button>
-            <button>x</button>
-            <button>c</button>
-            <button>v</button>
-            <button>b</button>
-            <button>n</button>
-            <button>m</button>
-            <button class="large">⌫</button>
-        </section>
-        </section>
-</div>
-</main>
+            <section class="keyboardw">
+                <section class="keyboard">
+                    <button>q</button>
+                    <button>w</button>
+                    <button>e</button>
+                    <button>r</button>
+                    <button>t</button>
+                    <button>y</button>
+                    <button>u</button>
+                    <button>i</button>
+                    <button>o</button>
+                    <button>p</button>
+                </section>
+
+                <section class="keyboard">
+                    <button>a</button>
+                    <button>s</button>
+                    <button>d</button>
+                    <button>f</button>
+                    <button>g</button>
+                    <button>h</button>
+                    <button>j</button>
+                    <button>k</button>
+                    <button>l</button>
+                </section>
+
+
+                <section class="keyboard">
+                    <button class="large">Enter</button>
+                    <button>z</button>
+                    <button>x</button>
+                    <button>c</button>
+                    <button>v</button>
+                    <button>b</button>
+                    <button>n</button>
+                    <button>m</button>
+                    <button class="large">⌫</button>
+                </section>
+            </section>
+        </div>
+
+    </main>
+</body>
 
 <script>
-        function runing() {
-        console.log("Running...");
+    // function runing(e) {
+    //     console.log(b.getText);
+    //     console.log(e.textContent);
+    // }
+    // const b = document.querySelector('.keyboard');
+    // console.log(b);
+    // b.addEventListener("click", runing, b);
+    function handleClick(e) {
+        const out = document.querySelector('#squares');
+        // out.textContent = 'You clicked ' + e.target.textContent;
+        out.append(e.target.textContent);
+
+        console.log(e.target.textContent);
     }
-    const b = document.querySelectorAll('button');
-    console.log(b);
-    b.addEventListener("click",runing);
-
-
+    const buttons = document.querySelectorAll('button');
+    for (const b of buttons) {
+        b.addEventListener('click', handleClick);
+    }
 </script>
