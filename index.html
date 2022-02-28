@@ -12,7 +12,6 @@
     div {
     list-style: none;
     border: black thin dashed;
-    background: rosybrown;
 
   }
   .keyboard { 
@@ -33,19 +32,21 @@
         border: none;
         font-size: 1em;
     }
+    .large{
+        width: 4.275em;
+    }
+    h1{
+        text-align: center;
+        font-size: 3rem;
+    }
 
     @media screen and (max-width: 600px) {
     button{
             width: 10%;
           }
-    #enter{
+    .large{
         width:20%;
         padding: 0;
-    }
-    #back{
-        width: 20%;
-        padding: 0;
-
     }
     .keyboardw{
     padding-bottom: 0.5em;
@@ -67,9 +68,10 @@
 
 
 <main>
+    <body></body>
 <title>Wordle</title>
-<div>A</div>
-<div>B</div>
+<h1>Wordle</h1>
+<div>Squares</div>
 <div>
 
 
@@ -102,7 +104,7 @@
         
         
         <section class="keyboard"> 
-            <button id="enter">Enter</button>
+            <button class="large">Enter</button>
             <button>z</button>
             <button>x</button>
             <button>c</button>
@@ -110,8 +112,19 @@
             <button>b</button>
             <button>n</button>
             <button>m</button>
-            <button id="back">⌫</button>
+            <button class="large">⌫</button>
         </section>
         </section>
 </div>
 </main>
+
+<script>
+        function runing() {
+        console.log("Running...");
+    }
+    const b = document.querySelectorAll('button');
+    console.log(b);
+    b.addEventListener("click",runing);
+
+
+</script>
