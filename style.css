@@ -1,6 +1,6 @@
 html {
+    width: 100%;
     height: 100%;
-    position: fixed;
 }
 
 main {
@@ -8,27 +8,25 @@ main {
     /* grid-template-rows: 1fr 12fr 3fr; */
     grid-template-rows: auto 1fr auto;
     grid-template-columns: 1fr;
-    /* height: 100vh; */
+    height: 100vh;
     width: 100vw;
-    height: 100%;
 }
 
-
-}
 div {
     list-style: none;
     border: black thin dashed;
 }
+
 .keyboard {
     display: flex;
     justify-content: center;
     width: device-width;
 }
+
 button {
     height: 3.8em;
     width: 2.85em;
     /* width:10%; */
-    
     margin: .2em;
     text-transform: uppercase;
     padding: .5em 0.2%;
@@ -36,29 +34,31 @@ button {
     border: none;
     font-size: 1em;
 }
+
 .large {
     width: 4.275em;
 }
+
 h1 {
     text-align: center;
     font-size: 3rem;
 }
+
 @media screen and (max-width: 600px) {
     button {
         width: 10%;
     }
-    
     .large {
         width: 20%;
         padding: 0;
     }
-    
     .keyboardw {
         padding-bottom: 0.5em;
         padding-left: 0.2em;
         padding-right: 0.2em;
     }
 }
+
 * {
     margin: 0;
     padding: 0;
