@@ -1,6 +1,12 @@
-html {
+/* html {
     width: 100%;
     height: 100%;
+} */
+
+body,
+html {
+    height: 100%;
+    background: green;
 }
 
 main {
@@ -23,6 +29,11 @@ div {
     width: device-width;
 }
 
+.sq {
+    width: 5rem;
+    height: 5rem;
+}
+
 button {
     height: 3.8em;
     width: 2.85em;
@@ -42,6 +53,20 @@ button {
 h1 {
     text-align: center;
     font-size: 3rem;
+}
+
+#squares {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    width: 25rem;
+    height: 30rem;
+    justify-content: center;
+}
+
+.sq {
+    background: yellow;
+    border: black thin dashed;
 }
 
 @media screen and (max-width: 600px) {
