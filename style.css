@@ -79,9 +79,11 @@ h1 {
 .sq {
     background: yellow;
     border: black thin dashed;
-    margin: 0.2em;
-    font-size: 2rem;
+    margin: 0.2rem;
+    font-size: 4em;
     padding: 0;
+    text-transform: uppercase;
+    font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
 }
 
 @media screen and (max-width: 600px) {
