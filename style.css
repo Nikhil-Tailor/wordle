@@ -61,7 +61,7 @@ h1 {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
     width: 25rem;
-    height: 31rem;
+    height: 30rem;
     text-align: center;
     background: green;
 }
@@ -94,6 +94,10 @@ h1 {
         padding-bottom: 0.5em;
         padding-left: 0.2em;
         padding-right: 0.2em;
+    }
+    #squares {
+        width: 90vw;
+        height: 108vw;
     }
 }
 
