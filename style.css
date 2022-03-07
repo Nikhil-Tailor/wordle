@@ -80,6 +80,8 @@ h1 {
     background: yellow;
     border: black thin dashed;
     margin: 0.2em;
+    font-size: 2rem;
+    padding: 0;
 }
 
 @media screen and (max-width: 600px) {
@@ -96,7 +98,7 @@ h1 {
         padding-right: 0.2em;
     }
     #squares {
-        width: 90vw;
+        width: 90%;
         height: 108vw;
     }
 }
