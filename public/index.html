@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<link rel="stylesheet" href="style.css">
+
+<body>
+    <main>
+        <title>Wordle</title>
+        <h1>Wordle</h1>
+
+        <div id="a">
+
+            <div id="squares">
+                <!-- <div class=" sq">c</div>
+                <div class=" sq">r</div>
+                <div class=" sq">a</div>
+                <div class=" sq">n</div>
+                <div class=" sq">e</div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div>
+                <div class=" sq"></div> -->
+
+
+
+            </div>
+        </div>
+        <div>
+
+
+
+            <section class="keyboardw">
+                <section class="keyboard">
+                    <button>q</button>
+                    <button>w</button>
+                    <button>e</button>
+                    <button>r</button>
+                    <button>t</button>
+                    <button>y</button>
+                    <button>u</button>
+                    <button>i</button>
+                    <button>o</button>
+                    <button>p</button>
+                </section>
+
+                <section class="keyboard">
+                    <button>a</button>
+                    <button>s</button>
+                    <button>d</button>
+                    <button>f</button>
+                    <button>g</button>
+                    <button>h</button>
+                    <button>j</button>
+                    <button>k</button>
+                    <button>l</button>
+                </section>
+
+
+                <section class="keyboard">
+                    <button class="large">⌫</button>
+                    <button>z</button>
+                    <button>x</button>
+                    <button>c</button>
+                    <button>v</button>
+                    <button>b</button>
+                    <button>n</button>
+                    <button>m</button>
+                    <button class="large">Enter</button>
+                </section>
+            </section>
+        </div>
+
+    </main>
+</body>
+
+<script>
+    // function runing(e) {
+    //     console.log(b.getText);
+    //     console.log(e.textContent);
+    // }
+    // const b = document.querySelector('.keyboard');
+    // console.log(b);
+    // b.addEventListener("click", runing, b);
+
+
+
+    const squares = document.querySelector('#squares');
+    console.log(squares)
+
+    for (let i = 0; i < 30; i++) {
+        const s = document.createElement('div');
+        s.textContent = '';
+        s.classList = "sq";
+        squares.append(s)
+    }
+    // s.classList.add('sq');
+
+
+    // const dup = document.querySelector(selector);
+
+
+    // const newEl = document.createElement(dup.tagName);
+    // newEl.textContent = dup.textContent;
+    // dup.parentNode.append(newEl);
+
+
+
+    function handleClick(e) {
+        const out = document.querySelector('#squares');
+        // out.textContent = 'You clicked ' + e.target.textContent;
+
+        console.log(e.target.textContent);
+        addToGrid(e.target.textContent);
+    }
+
+    function handlekey(e) {
+        const out = document.querySelector('#squares');
+        // out.textContent = 'You clicked ' + e.target.textContent;
+        // out.append(e.key);
+
+        // console.log(e.key);
+        if (e.key == "Backspace") {
+            removeFromGrid()
+        } else {
+            addToGrid(e.key);
+        }
+    }
+    // function removeFromGrid() {
+    //     const squa = document.querySelectorAll('.sq');
+    //     let removed = false
+    //     for (let i = 0; i < squa.length; i++) {
+    //         if (squa[i].textContent != '' && (squa[i + 1].textContent == '' && removed == false) {
+    //                 squa[i].textContent == '';
+    //                 removed = True;
+    //                 console.log("if");
+    //             }
+    //         }
+    //     }
+    // }
+
+    function removeFromGrid() {
+        const squa = document.querySelectorAll('.sq');
+        let removed = false
+        for (let i = 0; i < squa.length; i++) {
+            // if (squa[i].textContent != '' && squa[i + 1].textContent == '') {
+            //     squa[i].textContent == '';
+            //     removed = true;
+            //     console.log("if");
+            // } else {
+            //     console.log("ERROR");
+            //     console.log(squa[i].textContent);
+            //     value = i-1;
+            //     console.log(value);
+            //     console.log(squa[value].textContent);
+
+            // console.log("i", i, "   ", squa[i].textContent);
+            // console.log("i+1", i + 1, "   ", squa[i + 1].textContent);
+            if (squa[i].textContent == '' && squa[i - 1].textContent != '') {
+                console.log("TRUE");
+                squa[i - 1].textContent = '';
+            } else {
+                console.log("FALSE");
+            }
+        }
+    }
+
+
+
+
+
+
+    function addToGrid(key) {
+        console.log(key);
+        const squa = document.querySelectorAll('.sq');
+        let inserted = false;
+        for (const s of squa) {
+            if (s.textContent == '' && inserted == false) {
+                s.textContent = key;
+                inserted = true;
+                console.log("if");
+            }
+        }
+    }
+    const buttons = document.querySelectorAll('button');
+    for (const b of buttons) {
+        b.addEventListener('click', handleClick);
+        document.addEventListener('keyup', handlekey);
+
+    }
+</script>

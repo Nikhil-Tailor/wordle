@@ -1,0 +1,118 @@
+/* html {
+    width: 100%;
+    height: 100%;
+} */
+
+body,
+html {
+    height: 100%;
+    /* background: blue; */
+}
+
+main {
+    display: grid;
+    /* grid-template-rows: 1fr 12fr 3fr; */
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr;
+    height: 100vh;
+    width: 100vw;
+}
+
+div {
+    list-style: none;
+    /* border: black thin dashed; */
+}
+
+.keyboard {
+    display: flex;
+    justify-content: center;
+    width: device-width;
+}
+
+
+/* .sq {
+    width: 5rem;
+    height: 5rem;
+} */
+
+button {
+    height: 3.8em;
+    width: 2.85em;
+    /* width:10%; */
+    margin: .2em;
+    text-transform: uppercase;
+    padding: .5em 0.2%;
+    border-radius: .4em;
+    border: none;
+    font-size: 1em;
+}
+
+.large {
+    width: 4.275em;
+}
+
+h1 {
+    text-align: center;
+    font-size: 3rem;
+}
+
+#squares {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    width: 25rem;
+    height: 30rem;
+    text-align: center;
+    /* background: green; */
+}
+
+#a {
+    /* display: flex; */
+    /* width: 25rem;
+    height: 30rem; */
+    /* background: orange; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sq {
+    /* background: yellow; */
+    display: flex;
+    border: black thin dashed;
+    border: #d3d6da medium solid;
+    margin: 0.2rem;
+    font-size: 3em;
+    padding: 0;
+    text-transform: uppercase;
+    /* text-align: center; */
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
+    justify-content: center;
+    font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+
+@media screen and (max-width: 600px) {
+    button {
+        width: 8.5%;
+    }
+    .large {
+        width: 20%;
+        padding: 0;
+    }
+    .keyboardw {
+        padding-bottom: 0.5em;
+        padding-left: 0.2em;
+        padding-right: 0.2em;
+    }
+    #squares {
+        width: 90%;
+        height: 108vw;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
