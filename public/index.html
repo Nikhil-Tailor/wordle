@@ -131,7 +131,7 @@
         // out.textContent = 'You clicked ' + e.target.textContent;
 
         console.log(e.target.textContent);
-        addToGrid(e.target.textContent);
+        handler(e.target.textContent);
     }
 
     function handlekey(e) {
@@ -140,10 +140,24 @@
         // out.append(e.key);
 
         // console.log(e.key);
-        if (e.key == "Backspace") {
+        // if (e.key == "Backspace") {
+        //     removeFromGrid()
+        // } else {
+        //     addToGrid(e.key);
+        // }
+        handler(e.key);
+
+    }
+
+
+
+    function handler(key) {
+        if (key == "Backspace") {
             removeFromGrid()
+        } else if (key == 'ENTER' || key == 'Enter') {
+            console.log('ENTER')
         } else {
-            addToGrid(e.key);
+            addToGrid(key);
         }
     }
     // function removeFromGrid() {
