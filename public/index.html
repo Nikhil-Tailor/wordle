@@ -114,9 +114,8 @@
     //     s.classList = "sq";
     //     squares.append(s)
     // }
-
+    "use strict";
     const squares = document.querySelector('#squares');
-    console.log(squares)
 
     for (let i = 0; i < 6; i++) {
 
@@ -147,7 +146,6 @@
         const out = document.querySelector('#squares');
         // out.textContent = 'You clicked ' + e.target.textContent;
 
-        console.log(e.target.textContent);
         handler(e.target.textContent);
     }
 
@@ -167,17 +165,16 @@
     }
 
     function enter() {
-        const squa = document.querySelectorAll('.sq');
-        console.log(squa[10].textContent);
-        console.log("ISLINE FULL" + isLineFull());
+        let wordtocheck = "";
+        const row = document.querySelectorAll('.rows')
+        const squa = row[currentRow].querySelectorAll('.sq');
+
         if (isLineFull() && currentRow < 5) {
-            wordtocheck = "";
             for (const word of squa) {
                 wordtocheck += word.textContent;
             }
-            console.log("WORD TO CHECK =" + wordtocheck);
             //and if word is real
-
+            console.log(wordtocheck);
             currentRow++;
         }
     }
@@ -215,14 +212,11 @@
         if (key == "Backspace" || key == "⌫") {
             removeFromGrid();
         } else if (key == 'ENTER' || key == 'Enter') {
-            console.log('ENTER');
             enter();
-        } else if ((key >= "a" && key <= "z") || (key >= "A" && key <= "B")) {
+        } else if ((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z')) {
 
             addToGrid(key);
-        } else {
-            console.log('OTHER KEY PRESSED')
-        }
+        } else {}
     }
     // function removeFromGrid() {
     //     const squa = document.querySelectorAll('.sq');
@@ -238,9 +232,10 @@
     // }
 
     function removeFromGrid() {
-        const squa = document.querySelectorAll('.sq');
+        const row = document.querySelectorAll('.rows')
+        const squa = row[currentRow].querySelectorAll('.sq');
         let removed = false
-        for (let i = 0; i < squa.length; i++) {
+        for (let i = 0; i < 4; i++) {
             // if (squa[i].textContent != '' && squa[i + 1].textContent == '') {
             //     squa[i].textContent == '';
             //     removed = true;
@@ -254,12 +249,16 @@
 
             // console.log("i", i, "   ", squa[i].textContent);
             // console.log("i+1", i + 1, "   ", squa[i + 1].textContent);
-            if (squa[i].textContent == '' && squa[i - 1].textContent != '') {
-                console.log("TRUE");
-                squa[i - 1].textContent = '';
-            } else {
-                console.log("FALSE");
+            if (squa[0].textContent == '') {
+                removed = true;
             }
+            if (squa[i + 1].textContent == '' && squa[i].textContent != '') {
+                squa[i].textContent = '';
+                removed = true;
+            } else {}
+        }
+        if (removed == false) {
+            squa[4].textContent = '';
         }
     }
 
@@ -269,7 +268,6 @@
 
 
     function addToGrid(key) {
-        console.log(key);
         const row = document.querySelectorAll('.rows')
         const squa = row[currentRow].querySelectorAll('.sq');
         let inserted = false;
@@ -277,7 +275,6 @@
             if (s.textContent == '' && inserted == false) {
                 s.textContent = key;
                 inserted = true;
-                console.log("if");
             }
         }
     }
