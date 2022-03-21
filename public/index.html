@@ -149,15 +149,42 @@
 
     }
 
+    function enter() {
+        const squa = document.querySelectorAll('.sq');
+        console.log(squa[10].textContent);
+        console.log("ISLINE FULL" + isLineFull());
+    }
 
+    function isLineFull() {
+        const squa = document.querySelectorAll('.sq');
+        let found = false;
+        let position = 0;
+        for (let i = 0; i < 30; i++) {
+            if (found == false && squa[i].textContent == '') {
+                found = true;
+                position = i;
+            }
+
+        }
+
+        if (position == 0) {
+            return 0;
+        } else if (((position) % 5) == 0) {
+            return position - 1;
+        } else return 0;
+    }
 
     function handler(key) {
-        if (key == "Backspace") {
-            removeFromGrid()
+        if (key == "Backspace" || key == "⌫") {
+            removeFromGrid();
         } else if (key == 'ENTER' || key == 'Enter') {
-            console.log('ENTER')
-        } else {
+            console.log('ENTER');
+            enter();
+        } else if ((key >= "a" && key <= "z") || (key >= "A" && key <= "B")) {
+
             addToGrid(key);
+        } else {
+            console.log('OTHER KEY PRESSED')
         }
     }
     // function removeFromGrid() {
