@@ -105,16 +105,33 @@
 
 
 
+    // const squares = document.querySelector('#squares');
+    // console.log(squares)
+
+    // for (let i = 0; i < 30; i++) {
+    //     const s = document.createElement('div');
+    //     s.textContent = '';
+    //     s.classList = "sq";
+    //     squares.append(s)
+    // }
+
     const squares = document.querySelector('#squares');
     console.log(squares)
 
-    for (let i = 0; i < 30; i++) {
-        const s = document.createElement('div');
-        s.textContent = '';
-        s.classList = "sq";
-        squares.append(s)
+    for (let i = 0; i < 6; i++) {
+
+        const a = document.createElement('div');
+        a.classList = "rows"
+        squares.append(a);
+        for (let i = 0; i < 5; i++) {
+            const s = document.createElement('div');
+            s.textContent = '';
+            s.classList = "sq";
+            a.append(s)
+        }
     }
-    // s.classList.add('sq');
+    let currentRow = 0
+        // s.classList.add('sq');
 
 
     // const dup = document.querySelector(selector);
@@ -153,25 +170,45 @@
         const squa = document.querySelectorAll('.sq');
         console.log(squa[10].textContent);
         console.log("ISLINE FULL" + isLineFull());
+        if (isLineFull() && currentRow < 5) {
+            wordtocheck = "";
+            for (const word of squa) {
+                wordtocheck += word.textContent;
+            }
+            console.log("WORD TO CHECK =" + wordtocheck);
+            //and if word is real
+
+            currentRow++;
+        }
     }
 
+    // function isLineFull() {
+    //     const squa = document.querySelectorAll('.sq');
+    //     let found = false;
+    //     let position = 0;
+    //     for (let i = 0; i < 30; i++) {
+    //         if (found == false && squa[i].textContent == '') {
+    //             found = true;
+    //             position = i;
+    //         }
+
+    //     }
+
+    //     if (position == 0) {
+    //         return 0;
+    //     } else if (((position) % 5) == 0) {
+    //         return position - 1;
+    //     } else return 0;
+    // }
+
     function isLineFull() {
-        const squa = document.querySelectorAll('.sq');
-        let found = false;
-        let position = 0;
-        for (let i = 0; i < 30; i++) {
-            if (found == false && squa[i].textContent == '') {
-                found = true;
-                position = i;
-            }
-
+        const row = document.querySelectorAll('.rows')
+        const squa = row[currentRow].querySelectorAll('.sq');
+        if (squa[4].textContent == '') {
+            return false;
+        } else {
+            return true;
         }
-
-        if (position == 0) {
-            return 0;
-        } else if (((position) % 5) == 0) {
-            return position - 1;
-        } else return 0;
     }
 
     function handler(key) {
@@ -233,7 +270,8 @@
 
     function addToGrid(key) {
         console.log(key);
-        const squa = document.querySelectorAll('.sq');
+        const row = document.querySelectorAll('.rows')
+        const squa = row[currentRow].querySelectorAll('.sq');
         let inserted = false;
         for (const s of squa) {
             if (s.textContent == '' && inserted == false) {
