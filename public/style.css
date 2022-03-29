@@ -23,7 +23,7 @@ div {
     /* border: black thin dashed; */
 }
 
-.keyboard {
+.keyboardline {
     display: flex;
     justify-content: center;
     width: device-width;
@@ -106,7 +106,7 @@ h1 {
         width: 20%;
         padding: 0;
     }
-    .keyboardw {
+    .wholekeyboard {
         padding-bottom: 0.5em;
         padding-left: 0.2em;
         padding-right: 0.2em;
