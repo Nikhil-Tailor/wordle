@@ -61,7 +61,6 @@
      }
  }
 
-
  let currentRow = 0
      // s.classList.add('sq');
 
@@ -114,9 +113,9 @@
          if (await isItAWord(wordtocheck)) {
 
              console.log(wordtocheck);
-             let checkcolourchanger = checkword(wordtocheck);
+             let checkcolourchanger = await checkWordOnServer(wordtocheck);
              console.log(checkcolourchanger)
-             isCorrect(checkcolourchanger);
+             isCorrect(checkcolourchanger, wordtocheck);
              if (checkcolourchanger == "ccccc") {
                  found = true;
              }
@@ -128,39 +127,37 @@
              for (let square of squa) {
                  square.textContent = '';
              }
-             console.log("WORD NOT REAL")
+             message("Word Not Found")
 
          }
 
+     } else {
+         message("not enough letters");
      }
  }
 
 
- function checkword(wordtocheck) {
-     let colourword = "";
-     console.log("WORDTOCHECK" + wordtocheck);
-     for (let i = 0; i < wordtocheck.length; i++) {
-         console.log("inforloop")
-         if (wordtocheck[i] == todaysWord[i]) {
-             colourword += "c";
-             colourkeyboard(wordtocheck[i], "green");
-         } else if (todaysWord.includes(wordtocheck[i])) {
-             colourword += "p";
-             colourkeyboard(wordtocheck[i], "orange");
-
-         } else {
-             colourword += "w";
-             colourkeyboard(wordtocheck[i], "grey");
 
 
-         }
-         console.log(colourword);
+ //  function checkword(wordtocheck) {
+ //      let colourword = "";
+ //      console.log("WORDTOCHECK" + wordtocheck);
+ //      for (let i = 0; i < wordtocheck.length; i++) {
+ //          console.log("inforloop")
+ //          if (wordtocheck[i] == todaysWord[i]) {
+ //              colourword += "c";
+ //          } else if (todaysWord.includes(wordtocheck[i])) {
+ //              colourword += "p";
+ //          } else {
+ //              colourword += "w";
+ //          }
+ //          console.log(colourword);
 
-     }
-     console.log(colourword);
-     return colourword;
+ //      }
+ //      console.log(colourword);
+ //      return colourword;
 
- }
+ //  }
 
  // function isLineFull() {
  //     const squa = document.querySelectorAll('.sq');
@@ -273,7 +270,7 @@
      }
  }
 
- function isCorrect(word) {
+ function isCorrect(word, wordtocheck) {
      let colour = "";
      if (word.length == 5) {
 
@@ -289,6 +286,8 @@
                  colour = "orange";
              } else { colour = "black" }
              sq[i].style.background = colour;
+             colourkeyboard(wordtocheck[i], colour);
+
          }
 
      }
@@ -314,5 +313,44 @@
      }
  }
 
+ async function checkWordOnServer(word) {
+     const payload = { msg: word };
+     const response = await fetch('checker', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(payload),
+     });
+     if (response.ok) {
+         //  const checked = await response.json();
+         //  check = checked;
+         //  console.log("MESSAGE = " + checked);
+         //  return await response.json();
+         return (await response.json());
+
+     } else {
+         (console.log("Error"));
+         //  return 'error'
+
+     }
+
+     //  console.log(check);
+     //  return check;
+ }
+
+ function message(msg) {
+     const messageBox = document.querySelector('p');
+     messageBox.style.background = 'black';
+     messageBox.textContent = msg;
+     //wait 5 seconds
+     //  setTimeout(5000);
+     setTimeout(() => {
+         messageBox.style.background = 'white';
+         messageBox.textContent = '.';
+     }, "1000");
+     //  messageBox.style.background = 'black';
+     //  messageBox.textContent = '';
+
+
+ }
 
  const todaysWord = "again";
