@@ -75,14 +75,14 @@
 
 
  function handleClick(e) {
-     const out = document.querySelector('#squares');
+     //  const out = document.querySelector('#squares');
      // out.textContent = 'You clicked ' + e.target.textContent;
 
      handler(e.target.textContent);
  }
 
  function handlekey(e) {
-     const out = document.querySelector('#squares');
+     //  const out = document.querySelector('#squares');
      // out.textContent = 'You clicked ' + e.target.textContent;
      // out.append(e.key);
 
@@ -120,6 +120,7 @@
                  found = true;
              }
              currentRow++;
+             readGrid();
 
          } else {
              const row = document.querySelectorAll('.rows')
@@ -206,7 +207,7 @@
      } else
      if (((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z') && key.length == 1)) {
 
-         addToGrid(key);
+         addToGrid(key.toLowerCase());
      } else {}
  }
  // function removeFromGrid() {
@@ -295,9 +296,11 @@
  const buttons = document.querySelectorAll('button');
  for (const b of buttons) {
      b.addEventListener('click', handleClick);
-     document.addEventListener('keyup', handlekey);
+     //   document.addEventListener('keyup', handlekey);
 
  }
+ document.addEventListener('keyup', handlekey);
+
  async function isItAWord(word) {
      const url = 'https://dictionary-dot-sse-2020.nw.r.appspot.com/' + encodeURIComponent(word);
      const response = await fetch(url);
@@ -353,4 +356,39 @@
 
  }
 
+ function readGrid() {
+     const sqrs = document.querySelectorAll('.sq');
+     let words = '';
+     let colours = '';
+     for (const s of sqrs) {
+         words = words.concat(s.textContent)
+         colours = colours.concat(s.style.background + ',')
+     }
+     let data = { "words": words, "colours": colours }
+     localStorage.setItem('data', JSON.stringify(data));
+
+ }
+
+ async function writeGrid() {
+     const dataAsString = localStorage.getItem('data');
+     if (dataAsString) {
+         const data = JSON.parse(dataAsString);
+         const sqrs = document.querySelectorAll('.sq');
+
+         //  let data = { words: 'greencrane', colours: 'grey,green,grey,grey,grey,grey,green,grey,grey,grey,,,,,,,,,,,,,,,,,,,,,' }
+         for (let i = 0; i < data.words.length; i++) {
+             sqrs[i].textContent = data.words[i];
+             sqrs[i].style.background = data.colours.split(',')[i];
+         }
+         const rowsindata = data.words.length / 5
+         for (let i = 0; i < rowsindata; i++) {
+             await enter();
+         }
+     }
+ }
+
+ function todaysANewDay() {
+     localStorage.clear();
+ }
+ writeGrid();
  const todaysWord = "again";

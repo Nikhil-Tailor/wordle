@@ -64,5 +64,7 @@ function countOccurrences(str, letter) {
 
     }
 }
-const todaysWord = 'trout';
+
+
+const todaysWord = 'tiles';
 app.listen(8080);
