@@ -143,3 +143,16 @@ p {
     margin: 0;
     padding: 0;
 }
+
+.flip {
+    animation: 250ms linear flipper;
+}
+
+@keyframes flipper {
+    0% {
+        transform: rotateX(0);
+    }
+    100% {
+        transform: rotateX(-90deg);
+    }
+}
