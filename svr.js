@@ -64,7 +64,7 @@ function countOccurrences(str, letter) {
 // }
 
 async function getWord() {
-  const x = await db.selectWord(0);
+  const x = await db.selectWord(2);
   return x;
 }
 
