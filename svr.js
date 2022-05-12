@@ -64,7 +64,8 @@ function countOccurrences(str, letter) {
 // }
 
 async function getWord() {
-  console.log(await db.selectWord(0));
+  const x = await db.selectWord(0);
+  return x;
 }
 console.log(getWord());
 const todaysWord = 'tiles';
