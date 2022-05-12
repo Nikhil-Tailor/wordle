@@ -67,6 +67,10 @@ async function getWord() {
   const x = await db.selectWord(0);
   return x;
 }
-console.log(getWord());
+
+async function printWord() {
+  console.log(await getWord());
+}
+printWord();
 const todaysWord = 'tiles';
 app.listen(8080);
