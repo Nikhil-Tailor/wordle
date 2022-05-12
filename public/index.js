@@ -56,7 +56,6 @@ for (let i = 0; i < keyboardletters.length; i++) {
     keybline.append(key);
   }
 }
-
 let currentRow = 0;
 // s.classList.add('sq');
 
@@ -112,7 +111,7 @@ async function enter() {
         found = true;
       }
       currentRow++;
-      readGrid();
+      setWords(wordtocheck);
     } else {
       const row = document.querySelectorAll('.rows');
       const squa = row[currentRow].querySelectorAll('.sq');
@@ -212,12 +211,13 @@ function isLineFull() {
 
 function handler(key) {
   if (found !== true) {
-    if (key === 'Backspace' || key === '⌫') {
+    key = key.toLowerCase();
+    if (key === 'backspace' || key === '⌫') {
       removeFromGrid();
-    } else if (key === 'ENTER' || key === 'Enter') {
+    } else if (key === 'enter') {
       enter();
-    } else if ((((key >= 'a' && key <= 'z') || (key >= 'A' && key <= 'Z')) && key.length === 1)) {
-      addToGrid(key.toLowerCase());
+    } else if ((key >= 'a' && key <= 'z') && (key.length === 1)) {
+      addToGrid(key);
     }
   }
 }
@@ -280,26 +280,47 @@ function addToGrid(key) {
 }
 
 function isCorrect(word, wordtocheck) {
-  let colour = '';
+  let colours = [];
   if (word.length === 5) {
     const row = document.querySelectorAll('.rows');
     for (let i = 0; i < row.length - 1; i++) {
       console.log(word[i]);
-      const sq = row[currentRow].querySelectorAll('.sq');
       if (word[i] === 'c') {
-        colour = 'green';
+        colours.push('green');
       } else if (word[i] === 'w') {
-        colour = 'grey';
+        colours.push('grey');
       } else if (word[i] === 'p') {
-        colour = 'orange';
-      } else { colour = 'black'; }
-      sq[i].style.background = colour;
-      colourkeyboard(wordtocheck[i], colour);
-      sq[i].classList.add('flip');
-      console.log('Flip');
+        colours.push('orange');
+      } else { colours.push('black'); }
+
+      // setTimeout(() => {
+      // sq[i].classList.add('flip');
+
+      // console.log('Flip');
+      // }, 1000);
+      // colourkeyboard(wordtocheck[i], colour);
     }
+    setColours(colours);
+    flip(currentRow, colours, wordtocheck);
   }
 }
+
+function flip(rowcurrent, colours, wordtocheck) {
+  const row = document.querySelectorAll('.rows');
+  const sq = row[currentRow].querySelectorAll('.sq');
+
+  row[rowcurrent].classList.toggle('flip');
+  console.log(colours);
+
+  for (let i = 0; i < 5; i++) {
+    setTimeout(() => {
+      sq[i].style.background = colours[i];
+      colourkeyboard(wordtocheck[i], colours[i]);
+      // console.log(colours.shift());
+    }, 250 + 250 * i);
+  }
+}
+
 const buttons = document.querySelectorAll('button');
 for (const b of buttons) {
   b.addEventListener('click', handleClick);
@@ -358,39 +379,107 @@ function message(msg) {
   //  messageBox.textContent = '';
 }
 
-function readGrid() {
-  const sqrs = document.querySelectorAll('.sq');
-  let words = '';
-  let colours = '';
-  for (const s of sqrs) {
-    words = words.concat(s.textContent);
-    colours = colours.concat(s.style.background + ',');
-  }
-  const data = { words, colours };
-  localStorage.setItem('data', JSON.stringify(data));
-}
+// function readGrid() {
+//   const sqrs = document.querySelectorAll('.sq');
+//   let words = '';
+//   let colours = '';
+//   for (const s of sqrs) {
+//     words = words.concat(s.textContent);
+//     colours = colours.concat(s.style.background + ',');
+//   }
+//   const date = new Date();
 
-async function writeGrid() {
-  const dataAsString = localStorage.getItem('data');
+//   const todaysDate = [date.getMonth(), date.getDate(), date.getFullYear()];
+//   const grid = { words, colours, todaysDate, currentRow };
+//   localStorage.setItem('grid', JSON.stringify(grid));
+// }
+
+function writeGrid() {
+  const dataAsString = localStorage.getItem('grid');
   if (dataAsString) {
     const data = JSON.parse(dataAsString);
     const sqrs = document.querySelectorAll('.sq');
 
     //  let data = { words: 'greencrane', colours: 'grey,green,grey,grey,grey,grey,green,grey,grey,grey,,,,,,,,,,,,,,,,,,,,,' }
-    for (let i = 0; i < data.words.length; i++) {
+    for (let i = 0; i < data.colours.length; i++) {
       sqrs[i].textContent = data.words[i];
-      sqrs[i].style.background = data.colours.split(',')[i];
+      sqrs[i].style.background = data.colours[i];
+
+      colourkeyboard(data.words[i], data.colours[i])
+
     }
-    const rowsindata = data.words.length / 5;
-    for (let i = 0; i < rowsindata; i++) {
-      await enter();
-    }
+
+    currentRow = data.currentRow;
+    // const rowsindata = data.words.length / 5;
+    // for (let i = 0; i < rowsindata; i++) {
+    //   await enter();
+    // }
+  }
+}
+
+function setColours(colours) {
+  localStorage.getItem('grid');
+  const dataAsString = localStorage.getItem('grid');
+  if (dataAsString) {
+    const data = JSON.parse(dataAsString);
+    let storedColours = data.colours;
+    storedColours = storedColours.concat(colours);
+    const grid = { words: data.words, colours: storedColours, todaysDate: data.todaysDate, currentRow: data.currentRow };
+    localStorage.setItem('grid', JSON.stringify(grid));
+  }
+
+}
+
+function setWords(colours) {
+  localStorage.getItem('grid');
+  const dataAsString = localStorage.getItem('grid');
+  if (dataAsString) {
+    const data = JSON.parse(dataAsString);
+    let storedWords = data.words;
+    storedWords = storedWords + colours;
+    const grid = { words: storedWords, colours: data.colours, todaysDate: data.todaysDate, currentRow };
+    localStorage.setItem('grid', JSON.stringify(grid));
   }
 }
 
 function todaysANewDay() {
-  localStorage.clear();
+  localStorage.removeItem('grid');
+  const sqrs = document.querySelectorAll('.sq');
+  let words = '';
+  let colours = [];
+  // for (const s of sqrs) {
+  //   words = words.concat(s.textContent);
+  //   colours = colours.concat(s.style.background + ',');
+  // }
+  const date = new Date();
+  const todaysDate = [date.getMonth(), date.getDate(), date.getFullYear()];
+  currentRow = 0;
+  const grid = { words, colours, todaysDate, currentRow };
+  localStorage.setItem('grid', JSON.stringify(grid));
 }
+
+function isTodayANewDay() {
+  const dataAsString = localStorage.getItem('grid');
+  if (dataAsString) {
+    const date = new Date();
+
+    const todaysDate = [date.getMonth(), date.getDate(), date.getFullYear()];
+    const lastDate = JSON.parse(dataAsString).todaysDate;
+    console.log('DATE= ' + lastDate[2]);
+    // [4, 5, 2022]
+    // if
+
+    if ((todaysDate.toString() !== lastDate.toString())) {
+      console.log('TodaysDate = ', typeof todaysDate);
+      console.log('LastDate = ', typeof lastDate);
+
+      todaysANewDay();
+    }
+  } else {
+    todaysANewDay();
+  }
+}
+isTodayANewDay();
 writeGrid();
 
 // const todaysWord = "again";

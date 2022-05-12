@@ -1,1 +1,1 @@
-# gridTesting
+Reasons for making the server request the words when refreshed 
