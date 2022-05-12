@@ -280,7 +280,7 @@ function addToGrid(key) {
 }
 
 function isCorrect(word, wordtocheck) {
-  let colours = [];
+  const colours = [];
   if (word.length === 5) {
     const row = document.querySelectorAll('.rows');
     for (let i = 0; i < row.length - 1; i++) {
@@ -405,8 +405,7 @@ function writeGrid() {
       sqrs[i].textContent = data.words[i];
       sqrs[i].style.background = data.colours[i];
 
-      colourkeyboard(data.words[i], data.colours[i])
-
+      colourkeyboard(data.words[i], data.colours[i]);
     }
 
     currentRow = data.currentRow;
@@ -427,7 +426,6 @@ function setColours(colours) {
     const grid = { words: data.words, colours: storedColours, todaysDate: data.todaysDate, currentRow: data.currentRow };
     localStorage.setItem('grid', JSON.stringify(grid));
   }
-
 }
 
 function setWords(colours) {
@@ -445,8 +443,8 @@ function setWords(colours) {
 function todaysANewDay() {
   localStorage.removeItem('grid');
   const sqrs = document.querySelectorAll('.sq');
-  let words = '';
-  let colours = [];
+  const words = '';
+  const colours = [];
   // for (const s of sqrs) {
   //   words = words.concat(s.textContent);
   //   colours = colours.concat(s.style.background + ',');

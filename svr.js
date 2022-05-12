@@ -1,5 +1,6 @@
 'use strict';
 import express from 'express';
+import * as db from './database.js';
 
 const app = express();
 app.use(express.static('public'));
@@ -58,5 +59,10 @@ function countOccurrences(str, letter) {
 }
 
 
+async function getWord(req, res) {
+  res.json(await db.selectWord(0));
+}
+
+console.log(getWord);
 const todaysWord = 'tiles';
 app.listen(8080);
