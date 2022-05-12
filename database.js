@@ -10,10 +10,10 @@ sql.on('error', (err) => {
 });
 
 export async function selectWord(id) {
-  const q = 'SELECT * FROM wordsTable WHERE id = $1;';
+  const q = 'SELECT wprds FROM wordsTable WHERE id = $1;';
   const result = await sql.query(q, [id]);
   console.log('from db.js');
-  console.log(result.rows[0]);
-  console.log(result);
+  // console.log(result.rows[0]);
+  // console.log(result);
   return result.rows[0];
 }
