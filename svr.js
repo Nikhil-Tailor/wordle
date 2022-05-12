@@ -59,10 +59,13 @@ function countOccurrences(str, letter) {
 }
 
 
-async function getWord(req, res) {
-  res.json(await db.selectWord(0));
-}
+// async function getWord(req, res) {
+//   res.json(await db.selectWord(0));
+// }
 
-console.log(getWord);
+async function getWord() {
+  console.log(await db.selectWord(0));
+}
+console.log(getWord());
 const todaysWord = 'tiles';
 app.listen(8080);
