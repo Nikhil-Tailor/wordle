@@ -8,4 +8,6 @@ CREATE TABLE IF NOT EXISTS wordsTable (
 INSERT INTO wordsTable (words) VALUES
 ( 'words' ),
 ( 'audio' ),
-( 'people' );
+( 'dream' ),
+( 'flame' ),
+( 'drout' );

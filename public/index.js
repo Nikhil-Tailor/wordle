@@ -97,6 +97,7 @@ async function enter() {
   const squa = row[currentRow].querySelectorAll('.sq');
 
   if (isLineFull() && currentRow <= 5 && found === false) {
+    currentRow++;
     for (const word of squa) {
       wordtocheck += word.textContent;
     }
@@ -110,7 +111,6 @@ async function enter() {
       if (checkcolourchanger === 'ccccc') {
         found = true;
       }
-      currentRow++;
       setWords(wordtocheck);
     } else {
       const row = document.querySelectorAll('.rows');
@@ -119,6 +119,7 @@ async function enter() {
         square.textContent = '';
       }
       message('Word Not Found');
+
     }
   } else {
     message('not enough letters');
@@ -307,9 +308,9 @@ function isCorrect(word, wordtocheck) {
 
 function flip(rowcurrent, colours, wordtocheck) {
   const row = document.querySelectorAll('.rows');
-  const sq = row[currentRow].querySelectorAll('.sq');
+  const sq = row[currentRow-1].querySelectorAll('.sq');
 
-  row[rowcurrent].classList.toggle('flip');
+  row[rowcurrent-1].classList.toggle('flip');
   console.log(colours);
 
   for (let i = 0; i < 5; i++) {

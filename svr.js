@@ -2,6 +2,7 @@
 import express from 'express';
 import * as db from './database.js';
 
+let todaysWord='';
 const app = express();
 app.use(express.static('public'));
 
@@ -63,14 +64,31 @@ function countOccurrences(str, letter) {
 //   res.json(await db.selectWord(0));
 // }
 
-async function getWord() {
-  const x = await db.selectWord(2);
+async function getWord(n) {
+  const x = await db.selectWord(n);
   return x;
 }
 
 async function printWord() {
-  console.log(await getWord());
+  const fromDB=await getWord(2)
+  // console.log(JSON.parse(fromDB).words);
+
+  // console.log((typeof fromDB));
+  // console.log(( fromDB));
+  // console.log(( fromDB.words));
+
+
 }
 printWord();
-const todaysWord = 'tiles';
+
+async function setWord(){
+  const startDate=new Date(Date.UTC(2022,4, 11, 4, 3, 4));
+  const currentDate=new Date();
+  const daysSince = Math.floor((currentDate-startDate)/(1000*3600*24))
+  const  wordFromDb = await getWord(daysSince);
+  todaysWord=wordFromDb.words
+}
+
+setWord();
+// const todaysWord = 'tiles';
 app.listen(8080);
