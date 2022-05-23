@@ -119,6 +119,7 @@ async function enter() {
         square.textContent = '';
       }
       message('Word Not Found');
+      currentRow--;
 
     }
   } else {
@@ -410,6 +411,7 @@ function writeGrid() {
     }
 
     currentRow = data.currentRow;
+    found=data.found;
     // const rowsindata = data.words.length / 5;
     // for (let i = 0; i < rowsindata; i++) {
     //   await enter();
@@ -424,7 +426,7 @@ function setColours(colours) {
     const data = JSON.parse(dataAsString);
     let storedColours = data.colours;
     storedColours = storedColours.concat(colours);
-    const grid = { words: data.words, colours: storedColours, todaysDate: data.todaysDate, currentRow: data.currentRow };
+    const grid = { words: data.words, colours: storedColours, todaysDate: data.todaysDate, currentRow: data.currentRow, found};
     localStorage.setItem('grid', JSON.stringify(grid));
   }
 }
@@ -436,7 +438,7 @@ function setWords(colours) {
     const data = JSON.parse(dataAsString);
     let storedWords = data.words;
     storedWords = storedWords + colours;
-    const grid = { words: storedWords, colours: data.colours, todaysDate: data.todaysDate, currentRow };
+    const grid = { words: storedWords, colours: data.colours, todaysDate: data.todaysDate, currentRow,found };
     localStorage.setItem('grid', JSON.stringify(grid));
   }
 }
@@ -453,7 +455,7 @@ function todaysANewDay() {
   const date = new Date();
   const todaysDate = [date.getMonth(), date.getDate(), date.getFullYear()];
   currentRow = 0;
-  const grid = { words, colours, todaysDate, currentRow };
+  const grid = { words, colours, todaysDate, currentRow , found:false};
   localStorage.setItem('grid', JSON.stringify(grid));
 }
 
@@ -469,9 +471,7 @@ function isTodayANewDay() {
     // if
 
     if ((todaysDate.toString() !== lastDate.toString())) {
-      console.log('TodaysDate = ', typeof todaysDate);
-      console.log('LastDate = ', typeof lastDate);
-
+      
       todaysANewDay();
     }
   } else {

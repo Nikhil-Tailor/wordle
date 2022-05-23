@@ -77,6 +77,7 @@ async function printWord() {
   // console.log(( fromDB));
   // console.log(( fromDB.words));
 
+  
 
 }
 printWord();
@@ -86,6 +87,7 @@ async function setWord(){
   const currentDate=new Date();
   const daysSince = Math.floor((currentDate-startDate)/(1000*3600*24))
   const  wordFromDb = await getWord(daysSince);
+  console.log(wordFromDb);
   todaysWord=wordFromDb.words
 }
 
