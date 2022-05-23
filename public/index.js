@@ -305,12 +305,12 @@ function isCorrect(word, wordtocheck) {
     flip(currentRow, colours, wordtocheck);
   }
 }
-
+// CHECK THIS
 function flip(rowcurrent, colours, wordtocheck) {
   const row = document.querySelectorAll('.rows');
-  const sq = row[currentRow-1].querySelectorAll('.sq');
+  const sq = row[currentRow - 1].querySelectorAll('.sq');
 
-  row[rowcurrent-1].classList.toggle('flip');
+  row[rowcurrent - 1].classList.toggle('flip');
   console.log(colours);
 
   for (let i = 0; i < 5; i++) {
