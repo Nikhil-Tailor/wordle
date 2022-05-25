@@ -108,8 +108,11 @@ async function enter() {
       const checkcolourchanger = await checkWordOnServer(wordtocheck);
       console.log(checkcolourchanger);
       isCorrect(checkcolourchanger, wordtocheck);
-      if (checkcolourchanger === 'ccccc') {
+      if (checkcolourchanger === 'ccccc') { // or cccccc
         found = true;
+        finished();
+      } else if (currentRow === 6) {
+        lost();
       }
       setWords(wordtocheck);
     } else {
@@ -120,7 +123,6 @@ async function enter() {
       }
       message('Word Not Found');
       currentRow--;
-
     }
   } else {
     message('not enough letters');
@@ -170,8 +172,15 @@ function colourkeyboard(letter, colour) {
   const keys = document.querySelectorAll('button');
   for (const key of keys) {
     if (key.textContent === letter) {
-      if (key.style.background !== 'green') {
-        key.style.background = colour;
+      // if (key.style.background !== 'green') {
+      //   key.style.background = colour;
+      // }
+      if (colour == 'green') {
+        key.style.background = 'green';
+      } else if (colour == 'orange' && key.style.background !== 'green') {
+        key.style.background = 'orange';
+      } else if (colour == 'grey' && key.style.background == '') {
+        key.style.background = 'grey';
       }
     }
   }
@@ -411,7 +420,7 @@ function writeGrid() {
     }
 
     currentRow = data.currentRow;
-    found=data.found;
+    found = data.found;
     // const rowsindata = data.words.length / 5;
     // for (let i = 0; i < rowsindata; i++) {
     //   await enter();
@@ -426,7 +435,7 @@ function setColours(colours) {
     const data = JSON.parse(dataAsString);
     let storedColours = data.colours;
     storedColours = storedColours.concat(colours);
-    const grid = { words: data.words, colours: storedColours, todaysDate: data.todaysDate, currentRow: data.currentRow, found};
+    const grid = { words: data.words, colours: storedColours, todaysDate: data.todaysDate, currentRow: data.currentRow, found };
     localStorage.setItem('grid', JSON.stringify(grid));
   }
 }
@@ -438,7 +447,7 @@ function setWords(colours) {
     const data = JSON.parse(dataAsString);
     let storedWords = data.words;
     storedWords = storedWords + colours;
-    const grid = { words: storedWords, colours: data.colours, todaysDate: data.todaysDate, currentRow,found };
+    const grid = { words: storedWords, colours: data.colours, todaysDate: data.todaysDate, currentRow, found };
     localStorage.setItem('grid', JSON.stringify(grid));
   }
 }
@@ -455,7 +464,7 @@ function todaysANewDay() {
   const date = new Date();
   const todaysDate = [date.getMonth(), date.getDate(), date.getFullYear()];
   currentRow = 0;
-  const grid = { words, colours, todaysDate, currentRow , found:false};
+  const grid = { words, colours, todaysDate, currentRow, found: false };
   localStorage.setItem('grid', JSON.stringify(grid));
 }
 
@@ -471,13 +480,75 @@ function isTodayANewDay() {
     // if
 
     if ((todaysDate.toString() !== lastDate.toString())) {
-      
       todaysANewDay();
     }
   } else {
     todaysANewDay();
   }
 }
+
+function addScores(numOfTires) {
+  const scoresAsString = localStorage.getItem('scores');
+  if (scoresAsString) {
+    let scoresObject = JSON.parse(scoresAsString);
+
+    if (numOfTires === 1) {
+      scoresObject.one += 1;
+    }
+    if (numOfTires === 2) {
+      scoresObject.two += 1;
+    }
+    if (numOfTires === 3) {
+      scoresObject.three += 1;
+    }
+    if (numOfTires === 4) {
+      scoresObject.four += 1;
+    }
+    if (numOfTires === 5) {
+      scoresObject.five += 1;
+    }
+    if (numOfTires === 6) {
+      scoresObject.six += 1;
+    }
+    localStorage.setItem('scores', JSON.stringify(scoresObject));
+  } else {
+    createScores()
+    addScores(numOfTires);
+  }
+}
+
+function finished() {
+  message(`Well Done! You did it in ${currentRow} tries`);
+  //   const scoresAsString = localStorage.getItem('score');
+  addScores(currentRow);
+  //   if (scoresAsString) {
+  //     addScore(currentRow);
+  //   } else {
+  //     createScores();
+  //     addScore(currentRow);
+  //   }
+}
+
+function createScores() {
+  const scoreBoard = { one: 0, two: 0, three: 0, four: 0, five: 0, six: 0 };
+  localStorage.setItem('scores', JSON.stringify(scoreBoard));
+}
+
+async function lost() {
+  message('better luck next time');
+  const response = await fetch('word');
+  let todaysWord;
+  if (response.ok) {
+    todaysWord = await response.json();
+  } else {
+    todaysWord = 'failed to load';
+  }
+
+  setTimeout(() => {
+    message(`Todays word was ${todaysWord}`);
+  }, 2000);
+}
+
 isTodayANewDay();
 writeGrid();
 
