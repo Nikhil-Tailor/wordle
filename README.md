@@ -9,7 +9,8 @@ Below is the URL.
 https://dictionary-dot-sse-2020.nw.r.appspot.com
 I used the function below to unsure bad data is not sent to the server
 ```js
-encodeURIComponent(word)```
+encodeURIComponent(word)
+```
 
 ## How words are stored in db
 The list of words in the database is created in the program WordsGenerating.js. This was then added to the wordle.sql file using the command 
