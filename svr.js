@@ -7,12 +7,10 @@ let serverDate = new Date();
 
 function checkword(wordtocheck) {
   isTodayANewDay();
-  console.log(wordtocheck);
+  // console.log(wordtocheck);
   let colourword = '';
-  console.log('WORDTOCHECK' + wordtocheck);
   let temp = '';
   for (let i = 0; i < wordtocheck.length; i++) {
-    console.log('inforloop');
     if (wordtocheck[i] === todaysWord[i]) {
       colourword += 'c';
       temp += wordtocheck[i];
@@ -27,9 +25,9 @@ function checkword(wordtocheck) {
     } else {
       colourword += 'w';
     }
-    console.log(temp);
+    // console.log(temp);
   }
-  console.log(colourword);
+  // console.log(colourword);
   return colourword;
 }
 
@@ -42,47 +40,39 @@ function countOccurrences(str, letter) {
     return matching.length;
   }
 }
-
-
 async function getWord(n) {
   const x = await db.selectWord(n);
   return x;
 }
-
 async function setWord() {
   const startDate = new Date(Date.UTC(2022, 4, 11, -1, 0, 0));
   // const currentDate = new Date();
   const daysSince = Math.floor((serverDate - startDate) / (1000 * 3600 * 24));
   const wordFromDb = await getWord(daysSince);
-  console.log(daysSince);
-  console.log(wordFromDb);
+  // console.log(daysSince);
+  // console.log(wordFromDb);
   todaysWord = wordFromDb.words;
 }
 
 function isTodayANewDay() {
   const date = new Date();
-
   const todaysDate = [date.getMonth(), date.getDate(), date.getFullYear()];
   const lastServerDate = [serverDate.getMonth(), serverDate.getDate(), serverDate.getFullYear()];
   // console.log('DATE= ' + lastDate[2]);
   // [4, 5, 2022]
   // if
-
   if ((todaysDate.toString() !== lastServerDate.toString())) {
     serverDate = new Date();
     setWord();
   }
 }
-
 app.use(express.static('public'));
-
 app.post('/checker', express.json(), (req, res) => {
-  console.log(req.body.msg);
+  // console.log(req.body.msg);
   res.json((checkword(req.body.msg)));
 });
 app.get('/word', (req, res) => {
   res.json(todaysWord);
 });
-
 setWord();
 app.listen(8080);

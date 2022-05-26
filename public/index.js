@@ -29,12 +29,10 @@ function drawKeyboard() {
     keybline.classList = 'keyboardline';
     keyboa.append(keybline);
     for (let j = 0; j < keyboardletters[i].length; j++) {
-      console.log(keyboardletters[i][j]);
       const key = document.createElement('button');
       key.textContent = keyboardletters[i][j];
       if (keyboardletters[i][j] === 'Enter' ||
         keyboardletters[i][j] === '⌫') {
-        console.log('AAA');
         key.classList = 'large';
       }
       keybline.append(key);
@@ -51,15 +49,14 @@ function setClickHandlers() {
 }
 
 function handleClick(e) {
+  console.log(e.target.textContent);
   handler(e.target.textContent);
 }
 
 function handlekey(e) {
-  console.log(e.key);
   handler(e.key);
 }
 async function enter() {
-  console.log('WELCOME TO THE ENTER FUNCTION');
   let wordtocheck = '';
   const row = document.querySelectorAll('.rows');
   const squa = row[currentRow].querySelectorAll('.sq');
@@ -69,9 +66,9 @@ async function enter() {
       wordtocheck += word.textContent;
     }
     if (await isItAWord(wordtocheck)) {
-      console.log(wordtocheck);
+      // console.log(wordtocheck);
       const checkcolourchanger = await checkWordOnServer(wordtocheck);
-      console.log(checkcolourchanger);
+      // console.log(checkcolourchanger);
       isCorrect(checkcolourchanger, wordtocheck);
       if (checkcolourchanger === 'ccccc') { // or cccccc
         found = true;
@@ -120,6 +117,8 @@ function isLineFull() {
 }
 
 function handler(key) {
+  console.log("handler");
+  console.log(key)
   if (found !== true) {
     key = key.toLowerCase();
     if (key === 'backspace' || key === '⌫') {
@@ -129,7 +128,8 @@ function handler(key) {
     } else if ((key >= 'a' && key <= 'z') && (key.length === 1)) {
       addToGrid(key);
     }
-  } else if (key === 'stats') {
+  }
+  if (key === 'stats') {
     showStats();
   }
 }
@@ -169,7 +169,6 @@ function isCorrect(word, wordtocheck) {
   if (word.length === 5) {
     const row = document.querySelectorAll('.rows');
     for (let i = 0; i < row.length - 1; i++) {
-      console.log(word[i]);
       if (word[i] === 'c') {
         colours.push('green');
       } else if (word[i] === 'w') {
@@ -187,7 +186,6 @@ function flip(rowcurrent, colours, wordtocheck) {
   const row = document.querySelectorAll('.rows');
   const sq = row[currentRow - 1].querySelectorAll('.sq');
   row[rowcurrent - 1].classList.toggle('flip');
-  console.log(colours);
   for (let i = 0; i < 5; i++) {
     setTimeout(() => {
       sq[i].style.background = colours[i];
@@ -290,7 +288,6 @@ function isTodayANewDay() {
     const date = new Date();
     const todaysDate = [date.getMonth(), date.getDate(), date.getFullYear()];
     const lastDate = JSON.parse(dataAsString).todaysDate;
-    console.log('DATE= ' + lastDate[2]);
     // [4, 5, 2022]
     // if
     if ((todaysDate.toString() !== lastDate.toString())) {
@@ -333,6 +330,7 @@ function addScores(numOfTires) {
 function finished() {
   message(`Well Done! You did it in ${currentRow} tries`);
   addScores(currentRow);
+  showStats();
 }
 
 function createScores() {
@@ -351,6 +349,7 @@ async function lost() {
   setTimeout(() => {
     message(`Todays word was ${todaysWord}`);
   }, 2000);
+  showStats();
 }
 
 function showStats() {
@@ -366,21 +365,26 @@ function showStats() {
 function appendScores() {
   // for (let i=0; i>=6;i++){
   // }
-  document.querySelectorAll('h3').forEach((item) => {
-    if (item.textContent !== 'Attempts') {
-      item.remove();
-    }
-  });
   const scoresAsString = localStorage.getItem('scores');
-  const scoresElement = document.querySelector('#scores');
   if (scoresAsString) {
-    const scoresObject = JSON.parse(scoresAsString);
-    // for (let i = 0; i <= 6; i++) {
-    for (const [key, value] of Object.entries(scoresObject)) {
-      const entry = document.createElement('h3');
-      entry.textContent = `${key}: ${value}`;
-      scoresElement.append(entry);
+    document.querySelectorAll('h3').forEach((item) => {
+      if (item.textContent !== 'Attempts') {
+        item.remove();
+      }
+    });
+    const scoresElement = document.querySelector('#scores');
+    if (scoresAsString) {
+      const scoresObject = JSON.parse(scoresAsString);
+      // for (let i = 0; i <= 6; i++) {
+      for (const [key, value] of Object.entries(scoresObject)) {
+        const entry = document.createElement('h3');
+        entry.textContent = `${key}: ${value}`;
+        scoresElement.append(entry);
+      }
     }
+  } else {
+    createScores();
+    appendScores();
   }
 }
 
