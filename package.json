@@ -5,7 +5,8 @@
   "main": "svr.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node svr.js"
+    "start": "node svr.js",
+    "setup": "createdb wordle && psql wordle < wordle.sql"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,9 @@
   },
   "homepage": "https://github.com/UP2011524/wordle#readme",
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "pg": "^8.7.3",
+    "popular-english-words": "^1.0.2"
   },
   "type": "module",
   "devDependencies": {

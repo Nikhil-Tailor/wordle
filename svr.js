@@ -1,21 +1,12 @@
 'use strict';
 import express from 'express';
-
+import * as db from './database.js';
 const app = express();
-app.use(express.static('public'));
-
-app.post('/checker', express.json(), (req, res) => {
-  // res.json(JSON.stringify(checkword(req)));
-  console.log(req.body.msg);
-  // res.json(JSON.stringify(checkword(req.body.msg)));
-
-  res.json((checkword(req.body.msg)));
-});
-app.get('/word', (req, res) => {
-  res.json(todaysWord);
-});
+let todaysWord = '';
+let serverDate = new Date();
 
 function checkword(wordtocheck) {
+  isTodayANewDay();
   console.log(wordtocheck);
   let colourword = '';
   console.log('WORDTOCHECK' + wordtocheck);
@@ -33,11 +24,6 @@ function checkword(wordtocheck) {
         colourword += 'w';
         temp += wordtocheck[i];
       }
-
-
-      // colourword += 'p';
-      // console.log(countOccurrences(todaysWord, wordtocheck[i]));
-      // console.log(countOccurrences(temp, wordtocheck[i]));
     } else {
       colourword += 'w';
     }
@@ -58,5 +44,45 @@ function countOccurrences(str, letter) {
 }
 
 
-const todaysWord = 'tiles';
+async function getWord(n) {
+  const x = await db.selectWord(n);
+  return x;
+}
+
+async function setWord() {
+  const startDate = new Date(Date.UTC(2022, 4, 11, -1, 0, 0));
+  // const currentDate = new Date();
+  const daysSince = Math.floor((serverDate - startDate) / (1000 * 3600 * 24));
+  const wordFromDb = await getWord(daysSince);
+  console.log(daysSince);
+  console.log(wordFromDb);
+  todaysWord = wordFromDb.words;
+}
+
+function isTodayANewDay() {
+  const date = new Date();
+
+  const todaysDate = [date.getMonth(), date.getDate(), date.getFullYear()];
+  const lastServerDate = [serverDate.getMonth(), serverDate.getDate(), serverDate.getFullYear()];
+  // console.log('DATE= ' + lastDate[2]);
+  // [4, 5, 2022]
+  // if
+
+  if ((todaysDate.toString() !== lastServerDate.toString())) {
+    serverDate = new Date();
+    setWord();
+  }
+}
+
+app.use(express.static('public'));
+
+app.post('/checker', express.json(), (req, res) => {
+  console.log(req.body.msg);
+  res.json((checkword(req.body.msg)));
+});
+app.get('/word', (req, res) => {
+  res.json(todaysWord);
+});
+
+setWord();
 app.listen(8080);
