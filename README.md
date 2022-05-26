@@ -7,12 +7,15 @@ Then in the client the word returned is used to change the boxes to the correct 
 In order to check if a word is an actual English word, a fetch request is sent to the server provided.
 Below is the URL.
 https://dictionary-dot-sse-2020.nw.r.appspot.com
-I used the function ```js encodeURIComponent(word)``` to unsure bad data is not sent to the server
+I used the function ```js
+encodeURIComponent(word)``` to unsure bad data is not sent to the server
 
 ## How words are stored in db
-The list of words in the database is created in the program WordsGenerating.js. This was then added to the wordle.sql file using the command ```bash node WordGenerating.js >> wordle.sql```
+The list of words in the database is created in the program WordsGenerating.js. This was then added to the wordle.sql file using the command ```bash
+node WordGenerating.js >> wordle.sql```
 I chose a psql database as it allows the database to be run on a server and would be better if I wanted to use a wide variety of word lengths in the future.
-The database must be set up using the command ```bash npm run setup```
+The database must be set up using the command ```bash
+npm run setup```
 When the server first starts it words out the number of days since 11th of April. Then is finds the word with the primary key of that number.
 While running, when a request is made to see the word, the program checks if it is a new day, if so it gets the new word from the database.
 
