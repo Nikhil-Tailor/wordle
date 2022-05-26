@@ -54,7 +54,7 @@ async function setWord() {
   // const currentDate = new Date();
   const daysSince = Math.floor((serverDate - startDate) / (1000 * 3600 * 24));
   const wordFromDb = await getWord(daysSince);
-  console.log(daysSince)
+  console.log(daysSince);
   console.log(wordFromDb);
   todaysWord = wordFromDb.words;
 }
