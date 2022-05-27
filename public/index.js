@@ -2,13 +2,23 @@
 let found = false;
 const squares = document.querySelector('#squares');
 let currentRow = 0;
+let numberOfLetters = 5;
 
 function drawGrid() {
+  document.querySelectorAll('.sq').forEach((item) => {
+    item.remove();
+  });
+  document.querySelectorAll('.rows').forEach((item) => {
+    item.remove();
+  });
+  document.querySelectorAll('.sixRows').forEach((item) => {
+    item.remove();
+  });
   for (let i = 0; i < 6; i++) {
     const a = document.createElement('div');
     a.classList = 'rows';
     squares.append(a);
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < numberOfLetters; i++) {
       const s = document.createElement('div');
       s.textContent = '';
       s.classList = 'sq';
@@ -60,7 +70,7 @@ async function enter() {
   let wordtocheck = '';
   const row = document.querySelectorAll('.rows');
   const squa = row[currentRow].querySelectorAll('.sq');
-  if (isLineFull() && currentRow <= 5 && found === false) {
+  if (isLineFull() && currentRow <= numberOfLetters && found === false) {
     currentRow++;
     for (const word of squa) {
       wordtocheck += word.textContent;
@@ -70,7 +80,7 @@ async function enter() {
       const checkcolourchanger = await checkWordOnServer(wordtocheck);
       // console.log(checkcolourchanger);
       isCorrect(checkcolourchanger, wordtocheck);
-      if (checkcolourchanger === 'ccccc') { // or cccccc
+      if (checkcolourchanger === 'ccccc' || checkcolourchanger === 'cccccc') {
         found = true;
         finished();
       } else if (currentRow === 6) {
@@ -109,7 +119,7 @@ function colourkeyboard(letter, colour) {
 function isLineFull() {
   const row = document.querySelectorAll('.rows');
   const squa = row[currentRow].querySelectorAll('.sq');
-  if (squa[4].textContent === '') {
+  if (squa[squa.length - 1].textContent === '') {
     return false;
   } else {
     return true;
@@ -117,8 +127,8 @@ function isLineFull() {
 }
 
 function handler(key) {
-  console.log("handler");
-  console.log(key)
+  // console.log('handler');
+  console.log(key);
   if (found !== true) {
     key = key.toLowerCase();
     if (key === 'backspace' || key === '⌫') {
@@ -132,13 +142,21 @@ function handler(key) {
   if (key === 'stats') {
     showStats();
   }
+  if (key === '6 letters') {
+    sixLetters();
+    console.log('key.upper=' + key.upper);
+  }
+  if (key === '5 letters') {
+    fiveLetters();
+    console.log('key.upper=' + key.upper);
+  }
 }
 
 function removeFromGrid() {
   const row = document.querySelectorAll('.rows');
   const squa = row[currentRow].querySelectorAll('.sq');
   let removed = false;
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < squa.length - 1; i++) {
     if (squa[0].textContent === '') {
       removed = true;
     }
@@ -148,7 +166,7 @@ function removeFromGrid() {
     }
   }
   if (removed === false) {
-    squa[4].textContent = '';
+    squa[squa.length - 1].textContent = '';
   }
 }
 
@@ -166,9 +184,10 @@ function addToGrid(key) {
 
 function isCorrect(word, wordtocheck) {
   const colours = [];
-  if (word.length === 5) {
+  console.log(word, wordtocheck)
+  if (word.length === numberOfLetters) {
     const row = document.querySelectorAll('.rows');
-    for (let i = 0; i < row.length - 1; i++) {
+    for (let i = 0; i < numberOfLetters; i++) {
       if (word[i] === 'c') {
         colours.push('green');
       } else if (word[i] === 'w') {
@@ -183,10 +202,11 @@ function isCorrect(word, wordtocheck) {
 }
 
 function flip(rowcurrent, colours, wordtocheck) {
+  console.log(colours);
   const row = document.querySelectorAll('.rows');
   const sq = row[currentRow - 1].querySelectorAll('.sq');
   row[rowcurrent - 1].classList.toggle('flip');
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < numberOfLetters; i++) {
     setTimeout(() => {
       sq[i].style.background = colours[i];
       colourkeyboard(wordtocheck[i], colours[i]);
@@ -232,7 +252,13 @@ function message(msg) {
 }
 
 function writeGrid() {
-  const dataAsString = localStorage.getItem('grid');
+  let gridStorage = '';
+  if (numberOfLetters === 5) {
+    gridStorage = 'grid';
+  } else if (numberOfLetters === 6) {
+    gridStorage = 'grid6';
+  }
+  const dataAsString = localStorage.getItem(gridStorage);
   if (dataAsString) {
     const data = JSON.parse(dataAsString);
     const sqrs = document.querySelectorAll('.sq');
@@ -247,31 +273,44 @@ function writeGrid() {
 }
 
 function setColours(colours) {
-  localStorage.getItem('grid');
-  const dataAsString = localStorage.getItem('grid');
+  let gridStorage = '';
+  if (numberOfLetters === 5) {
+    gridStorage = 'grid';
+  } else if (numberOfLetters === 6) {
+    gridStorage = 'grid6';
+  }
+  localStorage.getItem(gridStorage);
+  const dataAsString = localStorage.getItem(gridStorage);
   if (dataAsString) {
     const data = JSON.parse(dataAsString);
     let storedColours = data.colours;
     storedColours = storedColours.concat(colours);
     const grid = { words: data.words, colours: storedColours, todaysDate: data.todaysDate, currentRow: data.currentRow, found };
-    localStorage.setItem('grid', JSON.stringify(grid));
+    localStorage.setItem(gridStorage, JSON.stringify(grid));
   }
 }
 
 function setWords(colours) {
-  localStorage.getItem('grid');
-  const dataAsString = localStorage.getItem('grid');
+  let gridStorage = '';
+  if (numberOfLetters === 5) {
+    gridStorage = 'grid';
+  } else if (numberOfLetters === 6) {
+    gridStorage = 'grid6';
+  }
+  localStorage.getItem(gridStorage);
+  const dataAsString = localStorage.getItem(gridStorage);
   if (dataAsString) {
     const data = JSON.parse(dataAsString);
     let storedWords = data.words;
     storedWords = storedWords + colours;
     const grid = { words: storedWords, colours: data.colours, todaysDate: data.todaysDate, currentRow, found };
-    localStorage.setItem('grid', JSON.stringify(grid));
+    localStorage.setItem(gridStorage, JSON.stringify(grid));
   }
 }
 
 function todaysANewDay() {
   localStorage.removeItem('grid');
+  localStorage.removeItem('grid6');
   // const sqrs = document.querySelectorAll('.sq');
   const words = '';
   const colours = [];
@@ -280,6 +319,7 @@ function todaysANewDay() {
   currentRow = 0;
   const grid = { words, colours, todaysDate, currentRow, found: false };
   localStorage.setItem('grid', JSON.stringify(grid));
+  localStorage.setItem('grid6', JSON.stringify(grid));
 }
 
 function isTodayANewDay() {
@@ -330,7 +370,9 @@ function addScores(numOfTires) {
 function finished() {
   message(`Well Done! You did it in ${currentRow} tries`);
   addScores(currentRow);
-  showStats();
+  setTimeout(() => {
+    showStats();
+  }, 2000);
 }
 
 function createScores() {
@@ -339,7 +381,7 @@ function createScores() {
 }
 async function lost() {
   message('better luck next time');
-  const response = await fetch('word');
+  const response = await fetch('word' + numberOfLetters);
   let todaysWord;
   if (response.ok) {
     todaysWord = await response.json();
@@ -349,7 +391,9 @@ async function lost() {
   setTimeout(() => {
     message(`Todays word was ${todaysWord}`);
   }, 2000);
-  showStats();
+  setTimeout(() => {
+    showStats();
+  }, 4000);
 }
 
 function showStats() {
@@ -386,6 +430,38 @@ function appendScores() {
     createScores();
     appendScores();
   }
+}
+
+function sixLetters() {
+  numberOfLetters = 6;
+  currentRow = 0;
+  console.log(numberOfLetters);
+  document.querySelectorAll('button').forEach((item) => {
+    item.style.background = '';
+  });
+  drawGrid();
+  writeGrid();
+  const letterButton = document.querySelector('.letters');
+  letterButton.textContent = '5 letters';
+  document.querySelectorAll('.rows').forEach((item) => {
+    item.classList.add('sixRows');
+  });
+}
+
+function fiveLetters() {
+  numberOfLetters = 5;
+  currentRow = 0;
+  console.log(numberOfLetters);
+  document.querySelectorAll('button').forEach((item) => {
+    item.style.background = '';
+  });
+  drawGrid();
+  writeGrid();
+  const letterButton = document.querySelector('.letters');
+  letterButton.textContent = '6 letters';
+  document.querySelectorAll('.rows').forEach((item) => {
+    item.classList.remove('sixRows');
+  });
 }
 
 function init() {
