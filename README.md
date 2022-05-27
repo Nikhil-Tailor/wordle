@@ -22,7 +22,7 @@ The database must be set up using the command
 ```shell
 npm run setup
 ```
-When the server first starts it words out the number of days since 11th of April. Then is finds the word with the primary key of that number.
+When the server first starts it words out the number of days since 11th of April 2022. Then is finds the word with the primary key of that number.
 While running, when a request is made to see the word, the program checks if it is a new day, if so it gets the new word from the database.
 
 ## How stored in program
@@ -39,3 +39,9 @@ Scores are also stored in local storage. The is a JSON element for number of tri
 Scores can be viewed by pressing the scores button.
 It will also be removed when pressing again
 Once you finish the game, the scores are also displayed.
+
+## Extra feature - 6 letter game
+When you press the '6 LETTERS' button you are able to play a game with 6 letters
+This uses a separate column of 6 letter words in the database
+Feature fully works. You are able to switch seamlessly. Progress is save for both games, separately, with local storage. The keyboard and grid is reset when first switching and looks at local storage to see if the game has already been played.
+Scores are stored separately and only shows the scoreboard for the game type you are playing.

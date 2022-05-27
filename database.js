@@ -7,10 +7,13 @@ sql.on('error', (err) => {
   console.error('SQL Fail', err);
   sql.end();
 });
-export async function selectWord(id) {
+export async function selectWordFive(id) {
   const q = 'SELECT words FROM wordsTable WHERE id = $1;';
   const result = await sql.query(q, [id]);
-  // console.log(result.rows[0]);
-  // console.log(result);
+  return result.rows[0];
+}
+export async function selectWordSix(id) {
+  const q = 'SELECT wordsSix FROM wordsTable WHERE id = $1;';
+  const result = await sql.query(q, [id]);
   return result.rows[0];
 }

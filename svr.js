@@ -2,12 +2,18 @@
 import express from 'express';
 import * as db from './database.js';
 const app = express();
-let todaysWord = '';
+let todaysWordFive = '';
+let todaysWordSix = '';
 let serverDate = new Date();
 
 function checkword(wordtocheck) {
   isTodayANewDay();
-  // console.log(wordtocheck);
+  let todaysWord = '';
+  if (wordtocheck.length === 5) {
+    todaysWord = todaysWordFive;
+  } else if (wordtocheck.length === 6) {
+    todaysWord = todaysWordSix;
+  }
   let colourword = '';
   let temp = '';
   for (let i = 0; i < wordtocheck.length; i++) {
@@ -40,18 +46,24 @@ function countOccurrences(str, letter) {
     return matching.length;
   }
 }
-async function getWord(n) {
-  const x = await db.selectWord(n);
+async function getWordFive(n) {
+  const x = await db.selectWordFive(n);
+  return x;
+}
+async function getWordSix(n) {
+  const x = await db.selectWordSix(n);
   return x;
 }
 async function setWord() {
   const startDate = new Date(Date.UTC(2022, 4, 11, -1, 0, 0));
   // const currentDate = new Date();
   const daysSince = Math.floor((serverDate - startDate) / (1000 * 3600 * 24));
-  const wordFromDb = await getWord(daysSince);
-  // console.log(daysSince);
-  // console.log(wordFromDb);
-  todaysWord = wordFromDb.words;
+  const wordFromDbFive = await getWordFive(daysSince);
+  todaysWordFive = wordFromDbFive.words;
+  const wordFromDbSix = await getWordSix(daysSince);
+  todaysWordSix = wordFromDbSix.wordssix;
+  // console.log('TODAYSWORD' + todaysWordFive);
+  // console.log('TODAYSWORD' + todaysWordSix);
 }
 
 function isTodayANewDay() {
@@ -71,8 +83,11 @@ app.post('/checker', express.json(), (req, res) => {
   // console.log(req.body.msg);
   res.json((checkword(req.body.msg)));
 });
-app.get('/word', (req, res) => {
-  res.json(todaysWord);
+app.get('/word5', (req, res) => {
+  res.json(todaysWordFive);
+});
+app.get('/word6', (req, res) => {
+  res.json(todaysWordSix);
 });
 setWord();
 app.listen(8080);
