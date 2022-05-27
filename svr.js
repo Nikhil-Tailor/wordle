@@ -9,7 +9,6 @@ let serverDate = new Date();
 function checkword(wordtocheck) {
   isTodayANewDay();
   let todaysWord = '';
-  console.log(wordtocheck);
   if (wordtocheck.length === 5) {
     todaysWord = todaysWordFive;
   } else if (wordtocheck.length === 6) {
@@ -17,8 +16,6 @@ function checkword(wordtocheck) {
   }
   let colourword = '';
   let temp = '';
-  console.log(wordtocheck);
-  console.log(todaysWord);
   for (let i = 0; i < wordtocheck.length; i++) {
     if (wordtocheck[i] === todaysWord[i]) {
       colourword += 'c';

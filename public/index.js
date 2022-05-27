@@ -59,7 +59,6 @@ function setClickHandlers() {
 }
 
 function handleClick(e) {
-  console.log(e.target.textContent);
   handler(e.target.textContent);
 }
 
@@ -128,7 +127,6 @@ function isLineFull() {
 
 function handler(key) {
   // console.log('handler');
-  console.log(key);
   if (found !== true) {
     key = key.toLowerCase();
     if (key === 'backspace' || key === '⌫') {
@@ -144,11 +142,9 @@ function handler(key) {
   }
   if (key === '6 letters') {
     sixLetters();
-    console.log('key.upper=' + key.upper);
   }
   if (key === '5 letters') {
     fiveLetters();
-    console.log('key.upper=' + key.upper);
   }
 }
 
@@ -184,9 +180,7 @@ function addToGrid(key) {
 
 function isCorrect(word, wordtocheck) {
   const colours = [];
-  console.log(word, wordtocheck)
   if (word.length === numberOfLetters) {
-    const row = document.querySelectorAll('.rows');
     for (let i = 0; i < numberOfLetters; i++) {
       if (word[i] === 'c') {
         colours.push('green');
@@ -202,7 +196,6 @@ function isCorrect(word, wordtocheck) {
 }
 
 function flip(rowcurrent, colours, wordtocheck) {
-  console.log(colours);
   const row = document.querySelectorAll('.rows');
   const sq = row[currentRow - 1].querySelectorAll('.sq');
   row[rowcurrent - 1].classList.toggle('flip');
@@ -236,6 +229,7 @@ async function checkWordOnServer(word) {
   if (response.ok) {
     return (await response.json());
   } else {
+    currentRow = currentRow - 1;
     (console.log('Error'));
     //  return 'error'
   }
@@ -339,7 +333,7 @@ function isTodayANewDay() {
 }
 
 function addScores(numOfTires) {
-  const scoresAsString = localStorage.getItem('scores');
+  const scoresAsString = localStorage.getItem('scores' + numberOfLetters);
   if (scoresAsString) {
     const scoresObject = JSON.parse(scoresAsString);
     if (numOfTires === 1) {
@@ -360,7 +354,7 @@ function addScores(numOfTires) {
     if (numOfTires === 6) {
       scoresObject.six += 1;
     }
-    localStorage.setItem('scores', JSON.stringify(scoresObject));
+    localStorage.setItem('scores' + numberOfLetters, JSON.stringify(scoresObject));
   } else {
     createScores();
     addScores(numOfTires);
@@ -377,10 +371,11 @@ function finished() {
 
 function createScores() {
   const scoreBoard = { one: 0, two: 0, three: 0, four: 0, five: 0, six: 0 };
-  localStorage.setItem('scores', JSON.stringify(scoreBoard));
+  localStorage.setItem('scores' + numberOfLetters, JSON.stringify(scoreBoard));
 }
 async function lost() {
   message('better luck next time');
+  found = true;
   const response = await fetch('word' + numberOfLetters);
   let todaysWord;
   if (response.ok) {
@@ -409,7 +404,7 @@ function showStats() {
 function appendScores() {
   // for (let i=0; i>=6;i++){
   // }
-  const scoresAsString = localStorage.getItem('scores');
+  const scoresAsString = localStorage.getItem('scores' + numberOfLetters);
   if (scoresAsString) {
     document.querySelectorAll('h3').forEach((item) => {
       if (item.textContent !== 'Attempts') {
@@ -435,7 +430,6 @@ function appendScores() {
 function sixLetters() {
   numberOfLetters = 6;
   currentRow = 0;
-  console.log(numberOfLetters);
   document.querySelectorAll('button').forEach((item) => {
     item.style.background = '';
   });
@@ -451,7 +445,6 @@ function sixLetters() {
 function fiveLetters() {
   numberOfLetters = 5;
   currentRow = 0;
-  console.log(numberOfLetters);
   document.querySelectorAll('button').forEach((item) => {
     item.style.background = '';
   });
