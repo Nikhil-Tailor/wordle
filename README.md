@@ -1,3 +1,4 @@
+#Web Programming Coursework - M30237-2021/22
 ## How words are compared
 When the user presses enter, if the row is full of letters, then a post request is sent to the server.
 When sent to the server, it is compared to today's word. For each letter sent to the server a letter is sent back to the client. 'c' is sent if the word letter is in the **c**orrect position. 'p' is sent if the letter is in the wrong **p**osition. 'w' is sent if the letter is **w**rong.
